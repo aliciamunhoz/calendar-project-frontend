@@ -166,6 +166,7 @@ export function App() {
             pokemonId={pokemonId}
             monthLabel={monthLabel}
             projects={monthProjects}
+            allProjects={projects}
             editMode={editMode}
             onSelectProject={p => setModal({ type: "view", project: p })}
             onNewProject={() => setModal({ type: "create" })}

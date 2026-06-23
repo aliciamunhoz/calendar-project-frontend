@@ -2,17 +2,19 @@ import { usePokemon } from "../hooks/usePokemon";
 import { TYPE_COLORS } from "../utils/month-pokemon";
 import type { Project } from "../types/project";
 import { STATUS_LABEL } from "./ProjectForm";
+import { TechLegend } from "./TechLegend";
 
 interface PokemonPanelProps {
   pokemonId: number;
   monthLabel: string;
-  projects: Project[];
+  projects: Project[];       // mês atual — para lista "Projetos ativos"
+  allProjects: Project[];    // todos — para a legenda de stacks
   editMode: boolean;
   onSelectProject: (p: Project) => void;
   onNewProject: () => void;
 }
 
-export function PokemonPanel({ pokemonId, monthLabel, projects, editMode, onSelectProject, onNewProject }: PokemonPanelProps) {
+export function PokemonPanel({ pokemonId, monthLabel, projects, allProjects, editMode, onSelectProject, onNewProject }: PokemonPanelProps) {
   const { data, loading } = usePokemon(pokemonId);
 
   return (
@@ -65,13 +67,15 @@ export function PokemonPanel({ pokemonId, monthLabel, projects, editMode, onSele
         </>
       )}
 
+      <div style={divider} />
+      <TechLegend projects={allProjects} />
+
+      <div style={{ flex: 1 }} />
+
       {editMode && (
-        <>
-          <div style={{ flex: 1 }} />
-          <button onClick={onNewProject} style={newBtn}>
-            + Novo projeto
-          </button>
-        </>
+        <button onClick={onNewProject} style={newBtn}>
+          + Novo projeto
+        </button>
       )}
     </aside>
   );
