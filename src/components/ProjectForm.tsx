@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Period, PeriodFormData, Project, ProjectFormData, ProjectStatus } from "../types/project";
 import { PeriodsEditor } from "./PeriodsEditor";
+import { TechBadge } from "./TechBadge";
 
 export const STATUS_LABEL: Record<ProjectStatus, string> = {
   planning: "Planejando",
@@ -165,10 +166,7 @@ export function ProjectForm({ initial, onSave, onCancel, onAddPeriod, onUpdatePe
         />
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6 }}>
           {form.tech.map((t) => (
-            <span key={t} style={{ background: "#f1f5f9", borderRadius: 12, padding: "2px 10px", fontSize: 12, display: "flex", alignItems: "center", gap: 4 }}>
-              {t}
-              <button type="button" onClick={() => removeTech(t)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 14, lineHeight: 1, padding: 0 }}>×</button>
-            </span>
+            <TechBadge key={t} tech={t} onRemove={() => removeTech(t)} />
           ))}
         </div>
       </div>

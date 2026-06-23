@@ -1,5 +1,6 @@
 import type { Project } from "../types/project";
 import { STATUS_LABEL } from "./ProjectForm";
+import { TechBadge } from "./TechBadge";
 
 interface ProjectModalProps {
   project: Project;
@@ -39,9 +40,7 @@ export function ProjectModal({ project, editMode, onEdit, onDelete, onClose }: P
         {project.tech.length > 0 && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
             {project.tech.map((t) => (
-              <span key={t} style={{ background: "#f1f5f9", borderRadius: 12, padding: "3px 10px", fontSize: 12, color: "#475569", fontWeight: 500 }}>
-                {t}
-              </span>
+              <TechBadge key={t} tech={t} />
             ))}
           </div>
         )}
