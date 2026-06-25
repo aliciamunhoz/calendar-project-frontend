@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { getTechStyle } from "../utils/tech-colors";
 
 interface TechBadgeProps {
@@ -12,6 +13,7 @@ export function TechBadge({ tech, size = "md", onRemove }: TechBadgeProps) {
   const { bg, slug } = getTechStyle(tech);
   const px = SIZES[size];
   const iconPx = Math.round(px * 0.55);
+  const [imgFailed, setImgFailed] = useState(false);
 
   return (
     <div
@@ -39,13 +41,14 @@ export function TechBadge({ tech, size = "md", onRemove }: TechBadgeProps) {
           position: "relative",
         }}
       >
-        {slug ? (
+        {slug && !imgFailed ? (
           <img
             src={`https://cdn.simpleicons.org/${slug}/white`}
             alt={tech}
             width={iconPx}
             height={iconPx}
             style={{ objectFit: "contain", display: "block" }}
+            onError={() => setImgFailed(true)}
           />
         ) : (
           <span style={{ color: "#fff", fontSize: Math.round(iconPx * 0.7), fontWeight: 700, lineHeight: 1 }}>
