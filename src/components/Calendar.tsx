@@ -63,7 +63,7 @@ export function Calendar({ projects, year, month, onSelect, onPrev, onNext }: Ca
         ))}
       </div>
 
-      <div style={grid7}>
+      <div style={{ ...grid7, gridAutoRows: "72px" }}>
         {Array.from({ length: firstWeekday }).map((_, i) => <div key={`e-${i}`} />)}
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
           const entries = projectsForDay(projects, year, month, day);
@@ -110,8 +110,8 @@ const weekday: React.CSSProperties = {
   textAlign: "center" as const, fontSize: 10, fontWeight: 700, color: "#888", paddingBottom: 4,
 };
 const dayCell: React.CSSProperties = {
-  minHeight: 54, border: "1px solid #e8e8e8", borderRadius: 6,
-  padding: "3px 4px", background: "#fafafa", overflow: "hidden", minWidth: 0,
+  border: "1px solid #e8e8e8", borderRadius: 6,
+  padding: "3px 4px", background: "#fafafa", overflow: "hidden", minWidth: 0, height: "100%",
 };
 const todayCell: React.CSSProperties = {
   border: "2px solid #3b4cca", background: "#eef0ff",
