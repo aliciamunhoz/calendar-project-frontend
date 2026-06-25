@@ -1,6 +1,7 @@
 import type { Period, PeriodFormData, Project, ProjectFormData } from "../types/project";
 
-const BASE = "/projects";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3333";
+const BASE = `${API_URL}/projects`;
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, {
