@@ -6,6 +6,7 @@ import { PokemonPanel } from "./components/PokemonPanel";
 import { ProjectModal } from "./components/ProjectModal";
 import { ProjectForm } from "./components/ProjectForm";
 import { getPokemonId } from "./utils/month-pokemon";
+import { STATUS_LABEL } from "./components/ProjectForm";
 
 type Modal =
   | { type: "view"; project: Project }
@@ -165,26 +166,42 @@ export function App() {
           <PokemonPanel
             pokemonId={pokemonId}
             monthLabel={monthLabel}
-            projects={monthProjects}
             allProjects={projects}
             editMode={editMode}
-            onSelectProject={p => setModal({ type: "view", project: p })}
             onNewProject={() => setModal({ type: "create" })}
           />
-          {loading ? (
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "#aaa", fontSize: 14 }}>
-              Carregando...
-            </div>
-          ) : (
-            <Calendar
-              projects={projects}
-              year={year}
-              month={month}
-              onSelect={p => setModal({ type: "view", project: p })}
-              onPrev={prevMonth}
-              onNext={nextMonth}
-            />
-          )}
+          <div style={{ display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden" }}>
+            {loading ? (
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "#aaa", fontSize: 14, flex: 1 }}>
+                Carregando...
+              </div>
+            ) : (
+              <Calendar
+                projects={projects}
+                year={year}
+                month={month}
+                onSelect={p => setModal({ type: "view", project: p })}
+                onPrev={prevMonth}
+                onNext={nextMonth}
+              />
+            )}
+            {monthProjects.length > 0 && (
+              <div style={activeProjectsBar}>
+                <div style={activeProjectsLabel}>Projetos ativos</div>
+                <div style={activeProjectsGrid}>
+                  {monthProjects.map(p => (
+                    <div key={p.id} onClick={() => setModal({ type: "view", project: p })} style={activeProjectItem}>
+                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
+                      <div style={{ overflow: "hidden" }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.title}</div>
+                        <div style={{ fontSize: 10, color: "#666" }}>{STATUS_LABEL[p.status]}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -315,4 +332,19 @@ const pwCard: React.CSSProperties = {
 const pwInput_style: React.CSSProperties = {
   width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #ddd",
   fontSize: 15, fontFamily: "'Segoe UI', system-ui, sans-serif", outline: "none",
+};
+const activeProjectsBar: React.CSSProperties = {
+  borderTop: "2px solid #ffcb05", padding: "10px 14px", flexShrink: 0,
+  background: "#fff",
+};
+const activeProjectsLabel: React.CSSProperties = {
+  fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase",
+  letterSpacing: "0.06em", marginBottom: 8,
+};
+const activeProjectsGrid: React.CSSProperties = {
+  display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 6,
+};
+const activeProjectItem: React.CSSProperties = {
+  display: "flex", alignItems: "center", gap: 7, padding: "6px 8px", borderRadius: 8,
+  border: "1px solid #eee", background: "#fafafa", cursor: "pointer",
 };

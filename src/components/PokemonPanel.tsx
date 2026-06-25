@@ -1,20 +1,17 @@
 import { usePokemon } from "../hooks/usePokemon";
 import { TYPE_COLORS } from "../utils/month-pokemon";
 import type { Project } from "../types/project";
-import { STATUS_LABEL } from "./ProjectForm";
 import { TechLegend } from "./TechLegend";
 
 interface PokemonPanelProps {
   pokemonId: number;
   monthLabel: string;
-  projects: Project[];       // mês atual — para lista "Projetos ativos"
-  allProjects: Project[];    // todos — para a legenda de stacks
+  allProjects: Project[];
   editMode: boolean;
-  onSelectProject: (p: Project) => void;
   onNewProject: () => void;
 }
 
-export function PokemonPanel({ pokemonId, monthLabel, projects, allProjects, editMode, onSelectProject, onNewProject }: PokemonPanelProps) {
+export function PokemonPanel({ pokemonId, monthLabel, allProjects, editMode, onNewProject }: PokemonPanelProps) {
   const { data, loading } = usePokemon(pokemonId);
 
   return (
@@ -48,22 +45,6 @@ export function PokemonPanel({ pokemonId, monthLabel, projects, allProjects, edi
           </div>
           <div style={divider} />
           <p style={flavorText}>{data.flavorText}</p>
-        </>
-      )}
-
-      {projects.length > 0 && (
-        <>
-          <div style={divider} />
-          <div style={projectsLabel}>Projetos ativos</div>
-          {projects.map((p) => (
-            <div key={p.id} onClick={() => onSelectProject(p)} style={projectItem}>
-              <div style={{ width: 8, height: 8, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
-              <div style={{ overflow: "hidden" }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.title}</div>
-                <div style={{ fontSize: 10, color: "#666" }}>{STATUS_LABEL[p.status]}</div>
-              </div>
-            </div>
-          ))}
         </>
       )}
 
@@ -112,17 +93,8 @@ const divider: React.CSSProperties = {
 const flavorText: React.CSSProperties = {
   fontSize: 11, color: "#555", textAlign: "center", lineHeight: 1.5, margin: 0, padding: "0 2px",
 };
-const projectsLabel: React.CSSProperties = {
-  fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase" as const,
-  letterSpacing: "0.06em", alignSelf: "flex-start",
-};
 const newBtn: React.CSSProperties = {
   width: "100%", background: "#ffcb05", color: "#222", border: "none",
   borderRadius: 8, padding: "9px 0", fontSize: 12, fontWeight: 700,
   cursor: "pointer", fontFamily: "'Segoe UI', system-ui, sans-serif", flexShrink: 0,
-};
-const projectItem: React.CSSProperties = {
-  display: "flex", alignItems: "center", gap: 7, padding: "6px 8px", borderRadius: 8,
-  border: "1px solid #eee", background: "#fafafa", cursor: "pointer", width: "100%",
-  boxSizing: "border-box" as const,
 };
