@@ -20,9 +20,8 @@ const MONTHS_PT = [
 ];
 
 export function App() {
-  const today = new Date();
-  const [year, setYear] = useState(today.getFullYear());
-  const [month, setMonth] = useState(today.getMonth());
+  const [year, setYear] = useState(2026);
+  const [month, setMonth] = useState(10); // November = index 10
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<Modal>(null);
@@ -62,6 +61,7 @@ export function App() {
   }, []);
 
   function prevMonth() {
+    if (year === 2026 && month === 10) return;
     if (month === 0) { setMonth(11); setYear(y => y - 1); }
     else setMonth(m => m - 1);
   }

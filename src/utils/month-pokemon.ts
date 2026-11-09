@@ -1,6 +1,6 @@
-// Starting June 2026 = Bulbasaur #1, advancing one Pokémon per month
+// Starting November 2026 = Bulbasaur #1, advancing one Pokémon per month
 export function getPokemonId(year: number, month: number): number {
-  const diff = (year - 2026) * 12 + (month - 5); // month is 0-indexed, June=5
+  const diff = (year - 2026) * 12 + (month - 10); // month is 0-indexed, November=10
   return Math.max(1, diff + 1);
 }
 
